@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .forecast-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    .forecast-box {
+      flex: 1;
+      max-width: 45%;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+      max-height: 300px;
+    }
+    .forecast-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      min-width: 150px;
+      margin-right: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Weather Forecast</h1>
+
+  <div class="search-bar">
+    <input type="text" id="city" placeholder="Enter city name">
+    <button onclick="searchCityWeather()">Search</button>
+    <button onclick="getCurrentLocationWeather()">Get Current Location</button>
+  </div>
+
+  <div class="container">
+    <div class="box" id="live-time">
+      <h2>Live Time and Location</h2>
+      <p id="time"></p>
+      <p id="location"></p>
+    </div>
+
+    <div class="box" id="current-weather">
+      <h2>Current Weather</h2>
+      <div id="current"></div>
+    </div>
+
+    <div class="forecast-container">
+      <div class="box forecast-box" id="daily-forecast">
+        <h2>Daily Forecast</h2>
+        <div id="daily"></div>
+      </div>
+
+      <div class="box forecast-box" id="weekly-forecast">
+        <h2>Weekly Forecast</h2>
+        <div id="weekly"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const url = 'https://api.open-meteo.com/v1/forecast';
+    let currentCity = '';
+
+    function updateLiveTime() {
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      const date = now.toLocaleDateString();
+      document.getElementById('time').innerText = `Time: ${time}, Date: ${date}`;
+    }
+
+    function fetchWeatherData(latitude, longitude, city = '') {
+      const locationElement = document.getElementById('location');
+      if (city) {
+        locationElement.innerText = `Location: ${city}`;
+      } else {
+        locationElement.innerText = `Location: Lat ${latitude}, Lon ${longitude}`;
+      }
+
+      const currentWeatherParams = {
+        latitude: latitude,
+        longitude: longitude,
+        current_weather: true,
+        daily: 'sunrise,sunset',
+        timezone: 'auto'
+      };
+
+      fetch(`${url}?${new URLSearchParams(currentWeatherParams).toString()}`)
+        .then(response => response.json())
+        .then(data => {
+          displayCurrentWeather(data);
+        })
+        .catch(error => {
+          console.error('Error fetching current weather data:', error);
+        });
+
+      const dailyForecastParams = {
+        latitude: latitude,
+        longitude: longitude,
+        hourly: 'temperature_2m,precipitation,wind_speed_10m,wind_direction_10m',
+        timezone: 'auto'
+      };
+
+      fetch(`${url}?${new URLSearchParams(dailyForecastParams).toString()}`)
+        .then(response => response.json())
+        .then(data => {
+          displayDailyForecast(data);
+        })
+        .catch(error => {
+          console.error('Error fetching daily forecast data:', error);
+        });
+
+      const weeklyForecastParams = {
+        latitude: latitude,
+        longitude: longitude,
+        daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
+        timezone: 'auto'
+      };
+
+      fetch(`${url}?${new URLSearchParams(weeklyForecastParams).toString()}`)
+        .then(response => response.json())
+        .then(data => {
+          displayWeeklyForecast(data);
+        })
+        .catch(error => {
+          console.error('Error fetching weekly forecast data:', error);
+        });
+    }
+
+    function createWeatherElement(tag, text) {
+      const element = document.createElement(tag);
+      element.textContent = text;
+      return element;
+    }
+
+    function displayCurrentWeather(data) {
+      const weatherDiv = document.getElementById('current');
+      weatherDiv.innerHTML = '';
+      const weather = data.current_weather;
+      const daily = data.daily;
+
+      weatherDiv.appendChild(createWeatherElement('p', `Date: ${new Date().toLocaleDateString()}`));
+      weatherDiv.appendChild(createWeatherElement('p', `Temperature: ${weather.temperature}°C`));
+      weatherDiv.appendChild(createWeatherElement('p', `Humidity: ${weather.humidity}%`));
+      weatherDiv.appendChild(createWeatherElement('p', `Wind Speed: ${weather.windspeed} km/h`));
+      weatherDiv.appendChild(createWeatherElement('p', `Visibility: ${weather.visibility} km`));
+      weatherDiv.appendChild(createWeatherElement('p', `Pressure: ${weather.pressure} hPa`));
+      weatherDiv.appendChild(createWeatherElement('p', `Sunrise: ${daily.sunrise[0]}`));
+      weatherDiv.appendChild(createWeatherElement('p', `Sunset: ${daily.sunset[0]}`));
+      weatherDiv.appendChild(createWeatherElement('p', `Air Quality: Good (Assumed AQI)`));
+    }
+
+    function displayDailyForecast(data) {
+      const dailyForecastDiv = document.getElementById('daily');
+      dailyForecastDiv.innerHTML = '';
+      const hourlyData = data.hourly;
+      hourlyData.time.forEach((time, index) => {
+        const forecastItem = document.createElement('div');
+        forecastItem.className = 'forecast-item';
+        forecastItem.appendChild(createWeatherElement('p', `Time: ${time}`));
+        forecastItem.appendChild(createWeatherElement('p', `Temperature: ${hourlyData.temperature_2m[index]}°C`));
+        forecastItem.appendChild(createWeatherElement('p', `Wind Speed: ${hourlyData.wind_speed_10m[index]} km/h`));
+        dailyForecastDiv.appendChild(forecastItem);
+      });
+    }
+
+    function displayWeeklyForecast(data) {
+      const weeklyForecastDiv = document.getElementById('weekly');
+      weeklyForecastDiv.innerHTML = '';
+      const dailyData = data.daily;
+      dailyData.time.forEach((time, index) => {
+        const forecastItem = document.createElement('div');
+        forecastItem.className = 'forecast-item';
+        forecastItem.appendChild(createWeatherElement('p', `Date: ${time}`));
+        forecastItem.appendChild(createWeatherElement('p', `Max Temp: ${dailyData.temperature_2m_max[index]}°C`));
+        forecastItem.appendChild(createWeatherElement('p', `Min Temp: ${dailyData.temperature_2m_min[index]}°C`));
+        weeklyForecastDiv.appendChild(forecastItem);
+      });
+    }
+
+    function getCurrentLocationWeather() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          fetchWeatherData(latitude, longitude);
+        }, error => {
+          console.error('Error getting location:', error);
+        });
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+    }
+
+    function searchCityWeather() {
+      const city = document.getElementById('city').value;
+      currentCity = city;
+      // Geocoding API to get the latitude and longitude of the city
+      const geocodingUrl = `https://geocode.xyz/${city}?json=1`;
+
+      fetch(geocodingUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.latt && data.longt) {
+            const latitude = data.latt;
+            const longitude = data.longt;
+            fetchWeatherData(latitude, longitude, city);
+          } else {
+            console.error('Error getting city coordinates:', data);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching city coordinates:', error);
+        });
+    }
+
+    // Update live time every second
+    setInterval(updateLiveTime, 1000);
+
+    // Initial call to display live time
+    updateLiveTime();
+  </script>
+</body>
+</html>
