@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Forecast</title>
+
   <link rel="stylesheet" href="web.css">
   <!-- link for icon sun,moon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
@@ -152,6 +153,7 @@
     .icon {
       position: absolute;
       font-size: 20px;
+
     }
 
     .icon.sun {
@@ -165,6 +167,7 @@
       left: 45%;
       transform: translateY(-50%);
     }
+
 
     .circle-content {
       position: absolute;
@@ -273,12 +276,14 @@
 
     <div class="forecast-container">
       <div class="box forecast-box" id="daily-forecast">
+
         <div id="daily">
           <!-- Hourly forecast items will be appended here -->
         </div>
       </div>
 
       <div class="box forecast-box" id="weekly-forecast">
+
         <div id="weekly">
           <div class="forecast-item">
             <p>2025-02-10</p>
@@ -339,6 +344,7 @@ function fetchWeatherData(latitude, longitude, city = '') {
   } else {
     locationElement.innerText = 'Kanpur';
   }
+
 
   const currentWeatherParams = {
     latitude: latitude,
@@ -428,6 +434,7 @@ function displayDailyForecast(data) {
       forecastItem.children[3].style.color = '#74C0FC';
       forecastItem.appendChild(createWeatherElement('p', `${hourlyData.wind_speed_10m[index]} km/h`));
       dailyForecastDiv.appendChild(forecastItem);
+
     }
   });
 }
@@ -514,6 +521,7 @@ function updateProgress() {
 }
 
 setInterval(updateProgress, 100); // Update progress every 100ms
+
 
 </script>
 </body>
