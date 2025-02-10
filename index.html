@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Forecast</title>
+  <link rel="stylesheet" href="web.css">
+  <!-- link for icon sun,moon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
   <style>
     body {
   font-family: Arial, sans-serif;
@@ -28,12 +31,7 @@
   
 }
 .box {
-  color: aliceblue;
-  background-color: #87cfeb14;
-  backdrop-filter: blur(15px);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .search-bar {
   display: flex;
@@ -93,20 +91,26 @@
   min-width: 150px;
   margin-right: 10px;
   display: inline-block;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .live-current-container {
   display: flex;
   gap: 20px;
   justify-content: center;
 }
-.box{
+/* .box{
     display: flex;
     justify-content: ;
     align-items: center;
-}
+} */
 #live-time {
   flex: 1;
   max-width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 #current-weather {
   flex: 2;
@@ -166,6 +170,18 @@
       position: absolute;
       text-align: center;
     }
+         /* fancy scrollbar for forecast boxes */
+         .forecast-box::-webkit-scrollbar {
+          width: 12px;
+        }
+        .forecast-box::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.362); /* white translucent scrollbar thumb */
+          border-radius: 6px;
+        }
+        .forecast-box::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0); /* black translucent scrollbar track */
+          border-radius: 6px;
+        }
 @keyframes colorTransition {
   0% {
     background-color: lightSkyBlue;
@@ -216,9 +232,11 @@
     width: 130px;
     height: 130px;
   }
-  </style>
+
+  </style>    
 </head>
-<div class="search-bar">
+<body>
+  <div class="search-bar">
     <input type="text" id="city" placeholder="Enter city name">
     <button id="search-button" onclick="searchCityWeather()">Search</button>
     <button id="get-location" onclick="getCurrentLocationWeather()">Get Current Location</button>
@@ -262,199 +280,241 @@
 
       <div class="box forecast-box" id="weekly-forecast">
         <div id="weekly">
-          <!-- Daily forecast items will be appended here -->
+          <div class="forecast-item">
+            <p>2025-02-10</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>22°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>15°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-11</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>23°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>16°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-12</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>24°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>17°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-13</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>25°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>18°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-14</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>26°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>19°C</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const url = 'https://api.open-meteo.com/v1/forecast';
-    let currentCity = '';
+<script>
+  const url = 'https://api.open-meteo.com/v1/forecast';
+let currentCity = '';
 
-    function updateLiveTime() {
-      const now = new Date();
-      const time = now.toLocaleTimeString();
-      const date = now.toLocaleDateString();
-      document.getElementById('time-value').innerText = time;
-      document.getElementById('date-value').innerText = date;
+function updateLiveTime() {
+  const now = new Date();
+  const time = now.toLocaleTimeString();
+  const date = now.toLocaleDateString();
+  document.getElementById('time-value').innerText = time;
+  document.getElementById('date-value').innerText = date;
+}
+
+function fetchWeatherData(latitude, longitude, city = '') {
+  const locationElement = document.getElementById('location-value');
+  if (city) {
+    locationElement.innerText = city;
+  } else {
+    locationElement.innerText = 'Kanpur';
+  }
+
+  const currentWeatherParams = {
+    latitude: latitude,
+    longitude: longitude,
+    current_weather: true,
+    daily: 'sunrise,sunset',
+    timezone: 'auto'
+  };
+
+  fetch(`${url}?${new URLSearchParams(currentWeatherParams).toString()}`)
+    .then(response => response.json())
+    .then(data => {
+      displayCurrentWeather(data);
+    })
+    .catch(error => {
+      console.error('Error fetching current weather data:', error);
+    });
+
+  const dailyForecastParams = {
+    latitude: latitude,
+    longitude: longitude,
+    hourly: 'temperature_2m,precipitation,wind_speed_10m,wind_direction_10m',
+    timezone: 'auto'
+  };
+
+  fetch(`${url}?${new URLSearchParams(dailyForecastParams).toString()}`)
+    .then(response => response.json())
+    .then(data => {
+      displayDailyForecast(data);
+    })
+    .catch(error => {
+      console.error('Error fetching daily forecast data:', error);
+    });
+
+  const weeklyForecastParams = {
+    latitude: latitude,
+    longitude: longitude,
+    daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
+    timezone: 'auto'
+  };
+
+  fetch(`${url}?${new URLSearchParams(weeklyForecastParams).toString()}`)
+    .then(response => response.json())
+    .then(data => {
+      displayWeeklyForecast(data);
+    })
+    .catch(error => {
+      console.error('Error fetching weekly forecast data:', error);
+    });
+}
+
+function createWeatherElement(tag, text) {
+  const element = document.createElement(tag);
+  element.textContent = text;
+  return element;
+}
+
+function displayCurrentWeather(data) {
+  const weather = data.current_weather;
+  const daily = data.daily;
+
+  document.getElementById('current-date-value').innerText = new Date().toLocaleDateString();
+  document.getElementById('temperature-value').innerText = weather.temperature;
+  document.getElementById('humidity-value').innerText = weather.humidity;
+  document.getElementById('wind-speed-value').innerText = weather.windspeed;
+  document.getElementById('visibility-value').innerText = weather.visibility;
+  document.getElementById('pressure-value').innerText = weather.pressure;
+  document.getElementById('sunrise-value').innerText = daily.sunrise[0];
+  document.getElementById('sunset-value').innerText = daily.sunset[0];
+}
+
+function displayDailyForecast(data) {
+  const dailyForecastDiv = document.getElementById('daily');
+  dailyForecastDiv.innerHTML = '';
+  const hourlyData = data.hourly;
+  const currentDate = new Date().toLocaleDateString();
+  hourlyData.time.forEach((time, index) => {
+    const hourlyDate = new Date(time).toLocaleDateString();
+    if (hourlyDate === currentDate) {
+      const forecastItem = document.createElement('div');
+      forecastItem.className = 'forecast-item';
+      forecastItem.appendChild(createWeatherElement('p', `${new Date(time).toLocaleTimeString()}`));
+      forecastItem.appendChild(document.createElement('i')).className = 'fa-solid fa-temperature-three-quarters';
+      forecastItem.children[1].style.color = '#74C0FC';
+      forecastItem.appendChild(createWeatherElement('p', `${hourlyData.temperature_2m[index]}°C`));
+      forecastItem.appendChild(document.createElement('i')).className = 'fa-solid fa-paper-plane';
+      forecastItem.children[3].style.color = '#74C0FC';
+      forecastItem.appendChild(createWeatherElement('p', `${hourlyData.wind_speed_10m[index]} km/h`));
+      dailyForecastDiv.appendChild(forecastItem);
     }
+  });
+}
 
-    function fetchWeatherData(latitude, longitude, city = '') {
-      const locationElement = document.getElementById('location-value');
-      if (city) {
-        locationElement.innerText = city;
+function displayWeeklyForecast(data) {
+  const weeklyForecastDiv = document.getElementById('weekly');
+  weeklyForecastDiv.innerHTML = '';
+  const dailyData = data.daily;
+  dailyData.time.forEach((time, index) => {
+    const forecastItem = document.createElement('div');
+    forecastItem.className = 'forecast-item';
+    forecastItem.appendChild(createWeatherElement('p', `${time}`));
+    forecastItem.appendChild(document.createElement('img')).src = 'ass_final/temperature-arrow-up-solid.svg';
+    forecastItem.children[1].style.width = '20px';
+    forecastItem.appendChild(createWeatherElement('p', `${dailyData.temperature_2m_max[index]}°C`));
+    forecastItem.appendChild(document.createElement('img')).src = 'ass_final/temperature-arrow-down-solid.svg';
+    forecastItem.children[3].style.width = '20px';
+    forecastItem.appendChild(createWeatherElement('p', `${dailyData.temperature_2m_min[index]}°C`));
+    weeklyForecastDiv.appendChild(forecastItem);
+  });
+}
+
+function getCurrentLocationWeather() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      fetchWeatherData(latitude, longitude);
+    }, error => {
+      console.error('Error getting location:', error);
+    });
+  } else {
+    console.error('Geolocation is not supported by this browser.');
+  }
+}
+
+function searchCityWeather() {
+  const city = document.getElementById('city').value;
+  currentCity = city;
+  // Geocoding API to get the latitude and longitude of the city
+  const geocodingUrl = `https://geocode.xyz/${city}?json=1`;
+
+  fetch(geocodingUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.latt && data.longt) {
+        const latitude = data.latt;
+        const longitude = data.longt;
+        fetchWeatherData(latitude, longitude, city);
       } else {
-        locationElement.innerText = 'Kanpur';
+        console.error('Error getting city coordinates:', data);
       }
+    })
+    .catch(error => {
+      console.error('Error fetching city coordinates:', error);
+    });
+}
 
-      const currentWeatherParams = {
-        latitude: latitude,
-        longitude: longitude,
-        current_weather: true,
-        daily: 'sunrise,sunset',
-        timezone: 'auto'
-      };
+// Update live time every second
+setInterval(updateLiveTime, 1000);
 
-      fetch(`${url}?${new URLSearchParams(currentWeatherParams).toString()}`)
-        .then(response => response.json())
-        .then(data => {
-          displayCurrentWeather(data);
-        })
-        .catch(error => {
-          console.error('Error fetching current weather data:', error);
-        });
+// Initial call to display live time
+updateLiveTime();
 
-      const dailyForecastParams = {
-        latitude: latitude,
-        longitude: longitude,
-        hourly: 'temperature_2m,precipitation,wind_speed_10m,wind_direction_10m',
-        timezone: 'auto'
-      };
+// Automatically get current location weather when the page loads
+window.onload = function() {
+  document.getElementById('get-location').click();
+}
 
-      fetch(`${url}?${new URLSearchParams(dailyForecastParams).toString()}`)
-        .then(response => response.json())
-        .then(data => {
-          displayDailyForecast(data);
-        })
-        .catch(error => {
-          console.error('Error fetching daily forecast data:', error);
-        });
+// Circle bar
+let percentage = 0;
+const progressCircle = document.getElementById('progressCircle');
 
-      const weeklyForecastParams = {
-        latitude: latitude,
-        longitude: longitude,
-        daily: 'temperature_2m_max,temperature_2m_min,precipitation_sum',
-        timezone: 'auto'
-      };
+function updateProgress() {
+  percentage += 1;
+  if (percentage > 100) percentage = 0;
+  progressCircle.style.setProperty('--percentage', percentage + '%');
 
-      fetch(`${url}?${new URLSearchParams(weeklyForecastParams).toString()}`)
-        .then(response => response.json())
-        .then(data => {
-          displayWeeklyForecast(data);
-        })
-        .catch(error => {
-          console.error('Error fetching weekly forecast data:', error);
-        });
-    }
+  if (percentage <= 50) {
+    progressCircle.style.setProperty('--color', 'orange');
+  } else {
+    progressCircle.style.setProperty('--color', 'darkviolet');
+  }
+}
 
-    function createWeatherElement(tag, text) {
-      const element = document.createElement(tag);
-      element.textContent = text;
-      return element;
-    }
+setInterval(updateProgress, 100); // Update progress every 100ms
 
-    function displayCurrentWeather(data) {
-      const weather = data.current_weather;
-      const daily = data.daily;
-
-      document.getElementById('current-date-value').innerText = new Date().toLocaleDateString();
-      document.getElementById('temperature-value').innerText = weather.temperature;
-      document.getElementById('humidity-value').innerText = weather.humidity;
-      document.getElementById('wind-speed-value').innerText = weather.windspeed;
-      document.getElementById('visibility-value').innerText = weather.visibility;
-      document.getElementById('pressure-value').innerText = weather.pressure;
-      document.getElementById('sunrise-value').innerText = daily.sunrise[0];
-      document.getElementById('sunset-value').innerText = daily.sunset[0];
-    }
-
-    function displayDailyForecast(data) {
-      const dailyForecastDiv = document.getElementById('daily');
-      dailyForecastDiv.innerHTML = '';
-      const hourlyData = data.hourly;
-      const currentDate = new Date().toLocaleDateString();
-      hourlyData.time.forEach((time, index) => {
-        const hourlyDate = new Date(time).toLocaleDateString();
-        if (hourlyDate === currentDate) {
-          const forecastItem = document.createElement('div');
-          forecastItem.className = 'forecast-item';
-          forecastItem.appendChild(createWeatherElement('p', `Time: ${new Date(time).toLocaleTimeString()}`));
-          forecastItem.appendChild(createWeatherElement('p', `Temperature: ${hourlyData.temperature_2m[index]}°C`));
-          forecastItem.appendChild(createWeatherElement('p', `Wind Speed: ${hourlyData.wind_speed_10m[index]} km/h`));
-          dailyForecastDiv.appendChild(forecastItem);
-        }
-      });
-    }
-
-    function displayWeeklyForecast(data) {
-      const weeklyForecastDiv = document.getElementById('weekly');
-      weeklyForecastDiv.innerHTML = '';
-      const dailyData = data.daily;
-      dailyData.time.forEach((time, index) => {
-        const forecastItem = document.createElement('div');
-        forecastItem.className = 'forecast-item';
-        forecastItem.appendChild(createWeatherElement('p', `Date: ${time}`));
-        forecastItem.appendChild(createWeatherElement('p', `Max Temp: ${dailyData.temperature_2m_max[index]}°C`));
-        forecastItem.appendChild(createWeatherElement('p', `Min Temp: ${dailyData.temperature_2m_min[index]}°C`));
-        weeklyForecastDiv.appendChild(forecastItem);
-      });
-    }
-
-    function getCurrentLocationWeather() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          fetchWeatherData(latitude, longitude);
-        }, error => {
-          console.error('Error getting location:', error);
-        });
-      } else {
-        console.error('Geolocation is not supported by this browser.');
-      }
-    }
-
-    function searchCityWeather() {
-      const city = document.getElementById('city').value;
-      currentCity = city;
-      // Geocoding API to get the latitude and longitude of the city
-      const geocodingUrl = `https://geocode.xyz/${city}?json=1`;
-
-      fetch(geocodingUrl)
-        .then(response => response.json())
-        .then(data => {
-          if (data.latt && data.longt) {
-            const latitude = data.latt;
-            const longitude = data.longt;
-            fetchWeatherData(latitude, longitude, city);
-          } else {
-            console.error('Error getting city coordinates:', data);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching city coordinates:', error);
-        });
-    }
-
-    // Update live time every second
-    setInterval(updateLiveTime, 1000);
-
-    // Initial call to display live time
-    updateLiveTime();
-
-    // Automatically get current location weather when the page loads
-    window.onload = function() {
-      document.getElementById('get-location').click();
-    }
- 
-    // Circle bar
-    let percentage = 0;
-    const progressCircle = document.getElementById('progressCircle');
-
-    function updateProgress() {
-      percentage += 1;
-      if (percentage > 100) percentage = 0;
-      progressCircle.style.setProperty('--percentage', percentage + '%');
-
-      if (percentage <= 50) {
-        progressCircle.style.setProperty('--color', 'orange');
-      } else {
-        progressCircle.style.setProperty('--color', 'darkviolet');
-      }
-    }
-
-    setInterval(updateProgress, 100); // Update progress every 100ms
-  
-  </script>
+</script>
 </body>
 </html>
