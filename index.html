@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather Forecast</title>
 
-  <!-- link for icon sun,moon -->
+  <!-- link for icon sun, moon, temperature, and wind -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">     
   <style>
     body {
@@ -18,10 +18,10 @@
       gap: 20px;
     }
     .box {
-      border: 1px solid #ccc;
+      border: 1px solid #cccccc00;
       padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      
     }
     .search-bar {
       display: flex;
@@ -51,6 +51,8 @@
       min-width: 150px;
       margin-right: 10px;
       display: inline-block;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     .live-current-container {
       display: flex;
@@ -122,6 +124,20 @@
       position: absolute;
       text-align: center;
     }
+
+
+     /* fancy scrollbar for forecast boxes */
+     .forecast-box::-webkit-scrollbar {
+      width: 12px;
+    }
+    .forecast-box::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.5); /* white translucent scrollbar thumb */
+      border-radius: 6px;
+    }
+    .forecast-box::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2); /* black translucent scrollbar track */
+      border-radius: 6px;
+    }
   </style>
 </head>
 <body>
@@ -146,7 +162,7 @@
       </div>
 
       <div class="box" id="current-weather">
-        <h2>Current Weather</h2>
+        
         <div id="current">
           <p id="current-date">Date: <span id="current-date-value"></span></p>
           <p id="temperature">Temperature: <span id="temperature-value"></span>°C</p>
@@ -163,16 +179,50 @@
 
     <div class="forecast-container">
       <div class="box forecast-box" id="daily-forecast">
-        <h2>Daily Forecast</h2>
+        
         <div id="daily">
           <!-- Hourly forecast items will be appended here -->
         </div>
       </div>
 
       <div class="box forecast-box" id="weekly-forecast">
-        <h2>Weekly Forecast</h2>
+       
         <div id="weekly">
-          <!-- Daily forecast items will be appended here -->
+          <div class="forecast-item">
+            <p>2025-02-10</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>22°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>15°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-11</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>23°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>16°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-12</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>24°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>17°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-13</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>25°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>18°C</p>
+          </div>
+          <div class="forecast-item">
+            <p>2025-02-14</p>
+            <img src="ass_final/temperature-arrow-up-solid.svg" style="width: 20px;">
+            <p>26°C</p>
+            <img src="ass_final/temperature-arrow-down-solid.svg" style="width: 20px;">
+            <p>19°C</p>
+          </div>
         </div>
       </div>
     </div>
@@ -278,9 +328,13 @@
         if (hourlyDate === currentDate) {
           const forecastItem = document.createElement('div');
           forecastItem.className = 'forecast-item';
-          forecastItem.appendChild(createWeatherElement('p', `Time: ${new Date(time).toLocaleTimeString()}`));
-          forecastItem.appendChild(createWeatherElement('p', `Temperature: ${hourlyData.temperature_2m[index]}°C`));
-          forecastItem.appendChild(createWeatherElement('p', `Wind Speed: ${hourlyData.wind_speed_10m[index]} km/h`));
+          forecastItem.appendChild(createWeatherElement('p', `${new Date(time).toLocaleTimeString()}`));
+          forecastItem.appendChild(document.createElement('i')).className = 'fa-solid fa-temperature-three-quarters';
+          forecastItem.children[1].style.color = '#74C0FC';
+          forecastItem.appendChild(createWeatherElement('p', `${hourlyData.temperature_2m[index]}°C`));
+          forecastItem.appendChild(document.createElement('i')).className = 'fa-solid fa-paper-plane';
+          forecastItem.children[3].style.color = '#74C0FC';
+          forecastItem.appendChild(createWeatherElement('p', `${hourlyData.wind_speed_10m[index]} km/h`));
           dailyForecastDiv.appendChild(forecastItem);
         }
       });
@@ -293,9 +347,13 @@
       dailyData.time.forEach((time, index) => {
         const forecastItem = document.createElement('div');
         forecastItem.className = 'forecast-item';
-        forecastItem.appendChild(createWeatherElement('p', `Date: ${time}`));
-        forecastItem.appendChild(createWeatherElement('p', `Max Temp: ${dailyData.temperature_2m_max[index]}°C`));
-        forecastItem.appendChild(createWeatherElement('p', `Min Temp: ${dailyData.temperature_2m_min[index]}°C`));
+        forecastItem.appendChild(createWeatherElement('p', `${time}`));
+        forecastItem.appendChild(document.createElement('img')).src = 'ass_final/temperature-arrow-up-solid.svg';
+        forecastItem.children[1].style.width = '20px';
+        forecastItem.appendChild(createWeatherElement('p', `${dailyData.temperature_2m_max[index]}°C`));
+        forecastItem.appendChild(document.createElement('img')).src = 'ass_final/temperature-arrow-down-solid.svg';
+        forecastItem.children[3].style.width = '20px';
+        forecastItem.appendChild(createWeatherElement('p', `${dailyData.temperature_2m_min[index]}°C`));
         weeklyForecastDiv.appendChild(forecastItem);
       });
     }
