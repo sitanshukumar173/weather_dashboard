@@ -6,81 +6,264 @@
   <title>Weather Forecast</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .box {
-      border: 1px solid #ccc;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .search-bar {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  animation: colorTransition 40s linear infinite;
+
+
+}
+/* body::before{
+  content: " ";
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(5, 5, 110, 0.725));
+  
+} */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  
+}
+.box {
+  color: aliceblue;
+  background-color: #87cfeb14;
+  backdrop-filter: blur(15px);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.search-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 100vw;
+  
+}
+#city{
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(41, 76, 110, 0.17);
+}
+#search-button{
+    
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(41, 76, 110, 0.17);
+}
+#get-location{
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(41, 76, 110, 0.17);
+}
+.forecast-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.forecast-box {
+  flex: 1;
+  max-width: 47%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-height: 300px;
+}
+.forecast-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 150px;
+  margin-right: 10px;
+  display: inline-block;
+}
+.live-current-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+.box{
+    display: flex;
+    justify-content: ;
+    align-items: center;
+}
+#live-time {
+  flex: 1;
+  max-width: 45%;
+}
+#current-weather {
+  flex: 2;
+}
+#current{
+  padding: 5px;
+}
+.progress-circle {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--color) 0%, 
+        var(--color) var(--percentage), 
+        #e0e0e0 var(--percentage), 
+        #e0e0e0 100%
+      );
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      transition: background 0.3s ease, --color 0.3s ease;
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      align-items: center;
     }
-    .forecast-container {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
+
+    .progress-circle::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 230px;
+      height: 230px;
+      animation: colorTransition 40s linear infinite;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.06);
     }
-    .forecast-box {
-      flex: 1;
-      max-width: 45%;
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      overflow-x: auto;
-      white-space: nowrap;
-      max-height: 300px;
+
+    .icon {
+      position: absolute;
+      font-size: 20px;
     }
-    .forecast-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 8px;
-      min-width: 150px;
-      margin-right: 10px;
-      display: inline-block;
+
+    .icon.sun {
+      top: -20px;
+      left: 45%;
+      transform: translateY(-50%);
     }
+
+    .icon.moon {
+      bottom: -40px;
+      left: 45%;
+      transform: translateY(-50%);
+    }
+
+    .circle-content {
+      position: absolute;
+      text-align: center;
+    }
+@keyframes colorTransition {
+  0% {
+    background-color: lightSkyBlue;
+  }
+  25% {
+    background-color: lightYellow;
+  }
+  50% {
+    background-color: orange;
+  }
+  75% {
+    background-color: darkBlue;
+  }
+  100% {
+    background-color: lightSkyBlue; / Loop back to the initial color /
+  }
+}
+@media (max-width: 600px) {
+  *{
+    font-size: 10px;
+  }
+  .search-bar {
+    flex-direction: column;
+    border-radius: 10px;
+    
+  }
+  .live-current-container{
+    flex-direction: column;
+  }
+  #live-time {
+    flex: 1;
+    max-width: 100%;
+  }
+  .forecast-container{
+    flex-direction: column;
+  }
+  #daily-forecast{
+    max-width: 100%;
+  }
+  #weekly-forecast{
+    max-width: 100%;
+  }
+  .progress-circle {
+    width: 200px;
+    height: 200px;
+  }
+  .progress-circle::before {
+    width: 130px;
+    height: 130px;
+  }
   </style>
 </head>
-<body>
-  <h1>Weather Forecast</h1>
-
-  <div class="search-bar">
+<div class="search-bar">
     <input type="text" id="city" placeholder="Enter city name">
-    <button onclick="searchCityWeather()">Search</button>
-    <button onclick="getCurrentLocationWeather()">Get Current Location</button>
+    <button id="search-button" onclick="searchCityWeather()">Search</button>
+    <button id="get-location" onclick="getCurrentLocationWeather()">Get Current Location</button>
   </div>
 
   <div class="container">
-    <div class="box" id="live-time">
-      <h2>Live Time and Location</h2>
-      <p id="time"></p>
-      <p id="location"></p>
-    </div>
+    <div class="live-current-container">
+      <div class="box" id="live-time">
+        <div class="progress-circle" id="progressCircle" style="--percentage: 0%; --color: orange;">
+          <i class="fas fa-sun icon sun" style="color: #FFD43B;"></i>
+          <i class="fas fa-moon icon moon" style="color: #49a4e9;"></i>
+          <div class="circle-content">
+            <p id="location"> <span id="location-value"></span></p>
+            <p id="time"> <span id="time-value"></span></p>
+            <p id="date"> <span id="date-value"></span></p>
+          </div>
+        </div>
+      </div>
 
-    <div class="box" id="current-weather">
-      <h2>Current Weather</h2>
-      <div id="current"></div>
+      <div class="box" id="current-weather">
+        <div id="current">
+          <p id="current-date">Date: <span id="current-date-value"></span></p>
+          <p id="temperature">Temperature: <span id="temperature-value"></span>°C</p>
+          <p id="humidity">Humidity: <span id="humidity-value"></span>%</p>
+          <p id="wind-speed">Wind Speed: <span id="wind-speed-value"></span> km/h</p>
+          <p id="visibility">Visibility: <span id="visibility-value"></span> km</p>
+          <p id="pressure">Pressure: <span id="pressure-value"></span> hPa</p>
+          <p id="sunrise">Sunrise: <span id="sunrise-value"></span></p>
+          <p id="sunset">Sunset: <span id="sunset-value"></span></p>
+          <p id="air-quality">Air Quality: <span id="air-quality-value">Good (Assumed AQI)</span></p>
+        </div>
+      </div>
     </div>
 
     <div class="forecast-container">
       <div class="box forecast-box" id="daily-forecast">
-        <h2>Daily Forecast</h2>
-        <div id="daily"></div>
+        <div id="daily">
+          <!-- Hourly forecast items will be appended here -->
+        </div>
       </div>
 
       <div class="box forecast-box" id="weekly-forecast">
-        <h2>Weekly Forecast</h2>
-        <div id="weekly"></div>
+        <div id="weekly">
+          <!-- Daily forecast items will be appended here -->
+        </div>
       </div>
     </div>
   </div>
@@ -93,15 +276,16 @@
       const now = new Date();
       const time = now.toLocaleTimeString();
       const date = now.toLocaleDateString();
-      document.getElementById('time').innerText = `Time: ${time}, Date: ${date}`;
+      document.getElementById('time-value').innerText = time;
+      document.getElementById('date-value').innerText = date;
     }
 
     function fetchWeatherData(latitude, longitude, city = '') {
-      const locationElement = document.getElementById('location');
+      const locationElement = document.getElementById('location-value');
       if (city) {
-        locationElement.innerText = `Location: ${city}`;
+        locationElement.innerText = city;
       } else {
-        locationElement.innerText = `Location: Lat ${latitude}, Lon ${longitude}`;
+        locationElement.innerText = 'Kanpur';
       }
 
       const currentWeatherParams = {
@@ -161,33 +345,34 @@
     }
 
     function displayCurrentWeather(data) {
-      const weatherDiv = document.getElementById('current');
-      weatherDiv.innerHTML = '';
       const weather = data.current_weather;
       const daily = data.daily;
 
-      weatherDiv.appendChild(createWeatherElement('p', `Date: ${new Date().toLocaleDateString()}`));
-      weatherDiv.appendChild(createWeatherElement('p', `Temperature: ${weather.temperature}°C`));
-      weatherDiv.appendChild(createWeatherElement('p', `Humidity: ${weather.humidity}%`));
-      weatherDiv.appendChild(createWeatherElement('p', `Wind Speed: ${weather.windspeed} km/h`));
-      weatherDiv.appendChild(createWeatherElement('p', `Visibility: ${weather.visibility} km`));
-      weatherDiv.appendChild(createWeatherElement('p', `Pressure: ${weather.pressure} hPa`));
-      weatherDiv.appendChild(createWeatherElement('p', `Sunrise: ${daily.sunrise[0]}`));
-      weatherDiv.appendChild(createWeatherElement('p', `Sunset: ${daily.sunset[0]}`));
-      weatherDiv.appendChild(createWeatherElement('p', `Air Quality: Good (Assumed AQI)`));
+      document.getElementById('current-date-value').innerText = new Date().toLocaleDateString();
+      document.getElementById('temperature-value').innerText = weather.temperature;
+      document.getElementById('humidity-value').innerText = weather.humidity;
+      document.getElementById('wind-speed-value').innerText = weather.windspeed;
+      document.getElementById('visibility-value').innerText = weather.visibility;
+      document.getElementById('pressure-value').innerText = weather.pressure;
+      document.getElementById('sunrise-value').innerText = daily.sunrise[0];
+      document.getElementById('sunset-value').innerText = daily.sunset[0];
     }
 
     function displayDailyForecast(data) {
       const dailyForecastDiv = document.getElementById('daily');
       dailyForecastDiv.innerHTML = '';
       const hourlyData = data.hourly;
+      const currentDate = new Date().toLocaleDateString();
       hourlyData.time.forEach((time, index) => {
-        const forecastItem = document.createElement('div');
-        forecastItem.className = 'forecast-item';
-        forecastItem.appendChild(createWeatherElement('p', `Time: ${time}`));
-        forecastItem.appendChild(createWeatherElement('p', `Temperature: ${hourlyData.temperature_2m[index]}°C`));
-        forecastItem.appendChild(createWeatherElement('p', `Wind Speed: ${hourlyData.wind_speed_10m[index]} km/h`));
-        dailyForecastDiv.appendChild(forecastItem);
+        const hourlyDate = new Date(time).toLocaleDateString();
+        if (hourlyDate === currentDate) {
+          const forecastItem = document.createElement('div');
+          forecastItem.className = 'forecast-item';
+          forecastItem.appendChild(createWeatherElement('p', `Time: ${new Date(time).toLocaleTimeString()}`));
+          forecastItem.appendChild(createWeatherElement('p', `Temperature: ${hourlyData.temperature_2m[index]}°C`));
+          forecastItem.appendChild(createWeatherElement('p', `Wind Speed: ${hourlyData.wind_speed_10m[index]} km/h`));
+          dailyForecastDiv.appendChild(forecastItem);
+        }
       });
     }
 
@@ -246,6 +431,30 @@
 
     // Initial call to display live time
     updateLiveTime();
+
+    // Automatically get current location weather when the page loads
+    window.onload = function() {
+      document.getElementById('get-location').click();
+    }
+ 
+    // Circle bar
+    let percentage = 0;
+    const progressCircle = document.getElementById('progressCircle');
+
+    function updateProgress() {
+      percentage += 1;
+      if (percentage > 100) percentage = 0;
+      progressCircle.style.setProperty('--percentage', percentage + '%');
+
+      if (percentage <= 50) {
+        progressCircle.style.setProperty('--color', 'orange');
+      } else {
+        progressCircle.style.setProperty('--color', 'darkviolet');
+      }
+    }
+
+    setInterval(updateProgress, 100); // Update progress every 100ms
+  
   </script>
 </body>
 </html>
