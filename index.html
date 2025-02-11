@@ -7,35 +7,62 @@
 
   <link rel="stylesheet" href="web.css">
   <!-- link for icon sun,moon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
-  <style>
-    body {
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  animation: colorTransition 40s linear infinite;
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+   <!-- Link for SUSE font -->
+   <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+   <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+   
 
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> 
+  <style>
+
+
+    body {
+  font-family: "SUSE", sans-serif;
+  
+  /* margin: 35px;  */
+  margin: 0;
+      padding: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+        /* responsive */
+      background-attachment: fixed;  
+      height: 100vh;
+      width: 100vw;
+      z-index= -1;
+      
+/
+}
+
+
+#main-box {
+  margin: 35px;
 
 }
-/* body::before{
-  content: " ";
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(to bottom, rgba(255, 0, 0, 0), rgba(5, 5, 110, 0.725));
-  
-} */
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 35px;
   height: 100%;
   
 }
-.box {
-  padding: 20px;
-}
-.search-bar {
+/* .box {
+    border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 40px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 40%);
+} */
+
+.box1{
+    padding: 20px;
+ }
+
+ .search-bar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
   margin-top: 10px;
@@ -44,38 +71,55 @@
   max-width: 100vw;
   
 }
+#merge-search-bar{
+  display: flex;
+  flex-direction: row;
+  
+}
+
 #city{
     flex: 1;
     padding: 12px 20px;
-    border-radius: 15px;
-    border: none;
+    
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border: 1px solid #ccc; 
     outline: none;
     font-size: 16px;
-    background-color: rgba(41, 76, 110, 0.17);
+    background-color: rgba(10, 18, 25, 0.792);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 9);
+
+    backdrop-filter: blur(50px);
 }
 #search-button{
-    
+    backdrop-filter: blur(50px);
     padding: 12px 20px;
-    border-radius: 15px;
-    border: none;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: 1px solid #ccc; 
     outline: none;
     font-size: 16px;
-    background-color: rgba(41, 76, 110, 0.17);
+    background-color: rgba(0, 84, 157, 0.727);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 9);
 }
 #get-location{
+    backdrop-filter: blur(50px);
     padding: 12px 20px;
     border-radius: 15px;
-    border: none;
+    border: 1px solid #ccc; 
     outline: none;
     font-size: 16px;
     background-color: rgba(41, 76, 110, 0.17);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 9);
 }
 .forecast-container {
   display: flex;
   gap: 20px;
   justify-content: center;
+  
 }
 .forecast-box {
+    /* backdrop-filter: blur(50px); */
   flex: 1;
   max-width: 47%;
   display: flex;
@@ -86,27 +130,26 @@
   max-height: 300px;
 }
 .forecast-item {
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 8px;
-  min-width: 150px;
-  margin-right: 10px;
-  display: inline-block;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom, #0a032b80, #ffffff52);
+    color: #ccc;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 106px;
+    margin-right: 16px;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .live-current-container {
   display: flex;
   gap: 20px;
   justify-content: center;
 }
-/* .box{
-    display: flex;
-    justify-content: ;
-    align-items: center;
-} */
+
 #live-time {
-  flex: 1;
+    flex: 1;
+  padding: 40px;
   max-width: 45%;
   display: flex;
   justify-content: center;
@@ -114,11 +157,55 @@
   flex-direction: column;
 }
 #current-weather {
-  flex: 2;
+    flex: 2;
+  display: flex;
+  align-items: center;
 }
 #current{
-  padding: 5px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;  
 }
+
+#anime-box{
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 100px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+#small-box{
+  flex: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  
+}
+.box{
+  padding: 10px;
+}
+#current p{
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+  height: 100px;
+  width: 100px;
+  color: #ccc;
+  
+  backdrop-filter: blur(50px);
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 40%);
+  text-align: center;
+
+}
+
 .progress-circle {
       position: relative;
       width: 300px;
@@ -130,11 +217,13 @@
         #e0e0e0 var(--percentage), 
         #e0e0e0 100%
       );
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 60%), 0 2px 4px rgba(0, 0, 0, 50%);
       transition: background 0.3s ease, --color 0.3s ease;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      
     }
 
     .progress-circle::before {
@@ -144,10 +233,11 @@
       left: 50%;
       width: 230px;
       height: 230px;
-      animation: colorTransition 40s linear infinite;
+      /* animation: colorTransition 40s linear infinite; */
+      background-color: #8ca3ba;
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.06);
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 50%), inset 0 2px 4px rgba(0, 0, 0, 50%);
     }
 
     .icon {
@@ -157,14 +247,14 @@
     }
 
     .icon.sun {
-      top: -20px;
-      left: 45%;
+      top: 15px;
+      left: 47%;
       transform: translateY(-50%);
     }
 
     .icon.moon {
-      bottom: -40px;
-      left: 45%;
+      bottom: -3px;
+      left: 48%;
       transform: translateY(-50%);
     }
 
@@ -178,30 +268,17 @@
           width: 12px;
         }
         .forecast-box::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.362); /* white translucent scrollbar thumb */
+          background: rgba(18, 18, 18, 0.553); /* white translucent scrollbar thumb */
           border-radius: 6px;
         }
         .forecast-box::-webkit-scrollbar-track {
           background: rgba(0, 0, 0, 0); /* black translucent scrollbar track */
           border-radius: 6px;
         }
-@keyframes colorTransition {
-  0% {
-    background-color: lightSkyBlue;
-  }
-  25% {
-    background-color: lightYellow;
-  }
-  50% {
-    background-color: orange;
-  }
-  75% {
-    background-color: darkBlue;
-  }
-  100% {
-    background-color: lightSkyBlue; / Loop back to the initial color /
-  }
-}
+
+        
+    
+
 @media (max-width: 600px) {
   *{
     font-size: 10px;
@@ -236,42 +313,79 @@
     height: 130px;
   }
 
+  #current{
+    flex-direction: column;  
+  }
+  #merge-search-bar{
+    display: flex;
+    flex-direction: column;
+    
+  }
+  #city{
+    flex: 1;
+    padding: 12px 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(41, 76, 110, 0.17);
+}
+#search-button{
+    
+    padding: 12px 20px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(40, 126, 211, 0.515);
+}
+}
   </style>    
 </head>
 <body>
-  <div class="search-bar">
-    <input type="text" id="city" placeholder="Enter city name">
-    <button id="search-button" onclick="searchCityWeather()">Search</button>
+
+    <div id="main-box">
+
+        <div class="search-bar">
+    <div id="merge-search-bar">
+      <input type="text" id="city" placeholder="Enter city name">
+      <button id="search-button" onclick="searchCityWeather()">Search</button>
+    </div>
     <button id="get-location" onclick="getCurrentLocationWeather()">Get Current Location</button>
   </div>
 
   <div class="container">
     <div class="live-current-container">
-      <div class="box" id="live-time">
-        <div class="progress-circle" id="progressCircle" style="--percentage: 0%; --color: orange;">
-          <i class="fas fa-sun icon sun" style="color: #FFD43B;"></i>
-          <i class="fas fa-moon icon moon" style="color: #49a4e9;"></i>
+      <div class="box1" id="live-time">
+        <div class="progress-circle" id="progressCircle" style="--percentage: 0%; --color: rgb(107, 105, 99);">
+          <i class="fas fa-sun icon sun" style="color: #ffd587; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></i>
+          <i class="fas fa-moon icon moon" style="color: rgba(5, 5, 110, 0.725); rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></i>
           <div class="circle-content">
-            <p id="location"> <span id="location-value"></span></p>
-            <p id="time"> <span id="time-value"></span></p>
-            <p id="date"> <span id="date-value"></span></p>
+            <p id="location"> <span id="location-value" style="font-size: 40px; font-weight: bold; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span></p>
+            <p id="time"> <span id="time-value" style="font-size: 15px; font-weight: 300; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span></p>
+            <p id="date"> <span id="date-value" style="font-size: 15px; font-weight: 300; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span></p>
           </div>
         </div>
       </div>
 
-      <div class="box" id="current-weather">
+      <div class="box1" id="current-weather">
         <div id="current">
-          <p id="current-date">Date: <span id="current-date-value"></span></p>
-          <p id="temperature">Temperature: <span id="temperature-value"></span>°C</p>
-          <p id="humidity">Humidity: <span id="humidity-value"></span>%</p>
-          <p id="wind-speed">Wind Speed: <span id="wind-speed-value"></span> km/h</p>
-          <p id="visibility">Visibility: <span id="visibility-value"></span> km</p>
-          <p id="pressure">Pressure: <span id="pressure-value"></span> hPa</p>
-          <p id="sunrise">Sunrise: <span id="sunrise-value"></span></p>
-          <p id="sunset">Sunset: <span id="sunset-value"></span></p>
-          <p id="air-quality">Air Quality: <span id="air-quality-value">Good (Assumed AQI)</span></p>
+          <div id="anime-box"></div>
+          <div id="small-box" >
+            <p id="current-date"><i class="fa-solid fa-calendar-days" style="font-size: 30px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);position: relative;top: 15px;" ></i> <span id="current-date-value" style="position: relative;top: 25px;"></span></p>
+            <p id="temperature" ><i class="fa-solid fa-temperature-three-quarters" style="font-size: 30px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);position: relative;top: 18px;" ></i> <span id="temperature-value"  style="position: relative;top: 37px;"></span>°C</p>
+            <p id="wind-speed"><i class="fa-solid fa-wind" style="font-size: 30px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);position: relative;top: 19px;" ></i> <span id="wind-speed-value" style="position: relative;top: 37px;"></span> km/h</p>
+            <p id="sunrise"><i class="bi bi-sunrise-fill" style="font-size: 40px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);" ></i> <span id="sunrise-value"></span></p>
+            <p id="sunset"><i class="bi bi-sunset-fill" style="font-size: 40px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);" ></i> <span id="sunset-value"></span></p>
+            <p id="air-quality"><i class="bi bi-fan " style="font-size: 30px;color: #ffffff; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);" ></i><span id="air-quality-value">Good (Assumed AQI)</span></p>
+          </div>
         </div>
       </div>
+
     </div>
 
     <div class="forecast-container">
@@ -324,6 +438,8 @@
       </div>
     </div>
   </div>
+
+</div>
 
 <script>
   const url = 'https://api.open-meteo.com/v1/forecast';
@@ -408,10 +524,10 @@ function displayCurrentWeather(data) {
 
   document.getElementById('current-date-value').innerText = new Date().toLocaleDateString();
   document.getElementById('temperature-value').innerText = weather.temperature;
-  document.getElementById('humidity-value').innerText = weather.humidity;
+  /* document.getElementById('humidity-value').innerText = weather.humidity; */
   document.getElementById('wind-speed-value').innerText = weather.windspeed;
-  document.getElementById('visibility-value').innerText = weather.visibility;
-  document.getElementById('pressure-value').innerText = weather.pressure;
+  /* document.getElementById('visibility-value').innerText = weather.visibility;
+  document.getElementById('pressure-value').innerText = weather.pressure; */
   document.getElementById('sunrise-value').innerText = daily.sunrise[0];
   document.getElementById('sunset-value').innerText = daily.sunset[0];
 }
@@ -519,6 +635,30 @@ function updateProgress() {
     progressCircle.style.setProperty('--color', 'darkviolet');
   }
 }
+
+const images = [
+      'url("ass_final/Atmosphere.jpg")',
+      'url("ass_final/Clear.jpg")',
+      'url("ass_final/Clouds.jpg")',
+      'url("ass_final/Drizzle.jpg")',
+      'url("ass_final/Rain.jpg")',
+      'url("ass_final/Snow.jpg")',
+      'url("ass_final/Thunderstorm.jpg")'
+      // Add more image relative path as needed
+    ];
+
+    let currentIndex = 0;
+
+    function changeBackgroundImage() {
+      document.body.style.backgroundImage = images[currentIndex];
+      currentIndex = (currentIndex + 1) % images.length;
+    }
+
+    // Change background image every 18 seconds (18000 milliseconds)
+    setInterval(changeBackgroundImage, 18000);
+
+    // Initial call to set the first image
+    changeBackgroundImage();
 
 setInterval(updateProgress, 100); // Update progress every 100ms
 
