@@ -335,6 +335,14 @@
       * {
         font-size: 10px;
       }
+      .image-slider{
+        height: 84px;
+        width: 84px;
+      }
+      #anime-box {
+      position: relative;
+      right: 0;
+    }
 
       .search-bar {
         flex-direction: column;
@@ -739,7 +747,7 @@
   <script>
     const url = 'https://api.open-meteo.com/v1/forecast';
     let currentCity = '';
-    const OPEN_CAGE_API_KEY = "YOUR_OPENCAGE_API_KEY"; // **REPLACE THIS!**
+    const OPEN_CAGE_API_KEY = "32b528f12029463e82d49faf45c95708"; // **REPLACE THIS!**
 
     // Function to update live time
     function updateLiveTime(utcDateTimeString) {
