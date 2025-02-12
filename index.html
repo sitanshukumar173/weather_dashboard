@@ -44,7 +44,10 @@
     }
 
     .box1 {
-      padding: 20px;
+      /* padding: 20px; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .search-bar {
@@ -156,7 +159,7 @@
     }
 
     .forecast-item {
-      backdrop-filter: blur(50px);
+      backdrop-filter: blur(80px);
       background: linear-gradient(to bottom, #0a032b80, #ffffff52);
       color: #f9f9f9;
       font-weight: 500;
@@ -173,11 +176,12 @@
     .live-current-container {
       display: flex;
       gap: 20px;
-      justify-content: center;
+      justify-content: space-between;
     }
 
     #live-time {
       flex: 1;
+      
       padding: 40px;
       max-width: 45%;
       display: flex;
@@ -200,12 +204,14 @@
     }
 
     #anime-box {
-      flex: 1;
+      flex: 2;
+      gap: 15px;
       position: relative;
-      right: 80px;
+      right: -26px;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       /* border: 1px solid #ccc; */
       /* padding: 50px; */
       /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -213,7 +219,7 @@
     }
 
     #small-box {
-      flex: 2;
+      flex: 3;
       width: 100%;
       display: flex;
       justify-content: center;
@@ -232,8 +238,8 @@
       border-radius: 8px;
       margin: 10px;
       padding: 10px;
-      height: 100px;
-      width: 100px;
+      height: 120px;
+      width: 120px;
       color: #f9f9f9;
       font-weight: 500;
 
@@ -270,6 +276,7 @@
     }
 
     .progress-circle::before {
+        
       content: "";
       position: absolute;
       top: 50%;
@@ -304,6 +311,7 @@
     .circle-content {
       position: absolute;
       text-align: center;
+      
     }
 
     /* fancy scrollbar for forecast boxes */
@@ -398,18 +406,27 @@
         font-size: 16px;
         background-color: rgba(40, 126, 211, 0.515);
       }
+
+      #current p{
+    height: 100px;
+    width: 100px;
+  }
+
     }
 
     /* anim-image */
     .image-slider {
       position: relative;
-      left: 80px;
+      /* left: 80px;
+      right: 50px;
+      top: 50px;
+      bottom: 50px; */
       display: flex;
       justify-content: center;
       align-items: center;
       filter: drop-shadow(4px 4px 8px rgba(0, 0, 0.75, 9));
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
       background-size: contain;
       background-position: center;
       animation: imageCycle 300s steps(1) infinite;
@@ -578,7 +595,7 @@
             <i class="fas fa-sun icon sun" style="color: #ffd587; rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></i>
             <i class="fas fa-moon icon moon" style="color: rgba(5, 5, 110, 0.725); rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></i>
             <div class="circle-content">
-              <p id="location"> <span id="location-value"
+              <!-- <p id="location"> <span id="location-value"
                   style="font-size: 40px; font-weight: bold; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
               </p>
               <p id="time"> <span id="time-value"
@@ -586,22 +603,55 @@
               </p>
               <p id="date"> <span id="date-value"
                   style="font-size: 15px; font-weight: 300; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
-              </p>
+              </p> -->
+
+              <div class="image-slider"></div>
+
             </div>
           </div>
         </div>
 
+
+        <div id="anime-box">
+            <!-- <div class="image-slider"></div> -->
+            
+
+            <article id="location"> <span id="location-value"
+              style="font-size: 70px; font-weight: 100; color: rgb(255, 255, 255);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+          </article>
+          <article id="time"> <span id="time-value"
+              style="font-size: 15px; font-weight: 300; color: rgb(255, 255, 255);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+          </article>
+          <article id="date"> <span id="date-value"
+              style="font-size: 15px; font-weight: 300; color: rgb(255, 255, 255);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+          </article>
+
+
+          </div>
+
+
         <div class="box1" id="current-weather">
-          <div id="current">
+          
 
 
             <div id="anime-box">
-              <div class="image-slider"></div>
-              <!-- <img src="ass_final\suncloude.png" style="width: 200px; filter: drop-shadow(4px 4px 8px rgba(0, 0, 0.75, 9));;"> -->
+              <!-- <div class="image-slider"></div> -->
+              
+
+              <article id="location"> <span id="location-value"
+                style="font-size: 40px; font-weight: bold; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+            </article>
+            <article id="time"> <span id="time-value"
+                style="font-size: 15px; font-weight: 300; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+            </article>
+            <article id="date"> <span id="date-value"
+                style="font-size: 15px; font-weight: 300; color: rgb(236 236 236);text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);"></span>
+            </article>
 
 
             </div>
 
+            <div id="current">
 
             <div id="small-box">
               <p id="current-date"><i class="fa-solid fa-calendar-days"
