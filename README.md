@@ -1,3 +1,3 @@
 # weather_dashboard
-weather dashboard front end website using html, css , js
-harsjhgfvb b df
+<h1><ur>author</ur> - sitanshu kumar (sitanshukumar173- https://github.com/sitanshukumar173)
+       - harsh sharma ( PentagonCoder -https://github.com/PentagonCoder)</h>
